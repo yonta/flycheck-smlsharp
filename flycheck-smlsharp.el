@@ -31,7 +31,7 @@
   "A SML# syntax checker using SML# compiler.
 
 About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
-  :command ("smlsharp" "-ftypecheck-only" source)
+  :command ("smlsharp" "-ftypecheck-only" source-original)
   :error-patterns
    ; EOL errors do not have error line,
    ; like, "none:~1.~1-~1.~1 Error: syntax error found at EOF"
@@ -69,7 +69,7 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
     (flycheck-increment-error-columns             ; for 0-based columns
      (flycheck-fill-empty-line-numbers errors)))  ; for "none:~1.~1"
   :modes sml-mode
-  ;; todo: _require "basis.smi"
+  :predicate flycheck-buffer-saved-p  ; for source-original to compile with .smi
 )
 
 (add-to-list 'flycheck-checkers 'smlsharp)
