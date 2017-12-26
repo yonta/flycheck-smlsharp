@@ -27,3 +27,8 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 1. Open `.sml` file, and begin sml-mode.
 1. After saving your change to file, flycheck with SML# compiler is running.
+
+## Limitation
+
+- You always need interface file (.smi) for this checker, even if you will use
+  REPL of SML# compiler.
