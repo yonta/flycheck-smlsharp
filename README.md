@@ -32,3 +32,6 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 - You always need interface file (.smi) for this checker, even if you will use
   REPL of SML# compiler.
+- This checker do not checks intaractively, it checks only when source file is
+  saved. Because temporary source file which is made by intaractive flycheck
+  can not have interface file now.
