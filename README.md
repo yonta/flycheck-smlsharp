@@ -4,7 +4,7 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 ## Demo
 
-![demo](https://github.com/yonta/flycheck-smlsharp/blob/media/screenshot.gif)
+![demo](https://github.com/yonta/flycheck-smlsharp/blob/media/screenshot2.gif)
 
 ## Requirement
 
