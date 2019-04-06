@@ -79,15 +79,13 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
             "Warning:" (+ (in " \t\n"))
             (message
              (and (+ not-newline) "\n"
-                  (* line-start (+ blank) (+ not-newline) "\n"))))
-   )
+                  (* line-start (+ blank) (+ not-newline) "\n")))))
   :error-filter
   (lambda (errors)
     (flycheck-increment-error-columns             ; for 0-based columns
      (flycheck-fill-empty-line-numbers errors)))  ; for "none:~1.~1"
   :modes sml-mode
-  :predicate flycheck-buffer-saved-p  ; for source-original to compile with .smi
-)
+  :predicate flycheck-buffer-saved-p) ; for source-original to compile with .smi
 
 (add-to-list 'flycheck-checkers 'smlsharp)
 
