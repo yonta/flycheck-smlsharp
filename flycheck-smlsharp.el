@@ -17,6 +17,9 @@
 ;; compiler.
 
 ;;; Code:
+
+(require 'flycheck)
+
 (flycheck-define-checker smlsharp
   "A SML# syntax checker using SML# compiler.
 
