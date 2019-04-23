@@ -20,7 +20,7 @@ Emacs Flychcker for Standard ML with SML# compiler
 1. Add like adove line to your `init.el`
 
 ```elisp
-(load "flycheck-smlsharp.el")
+(require "flycheck-smlsharp")
 ```
 
 ## Usage
