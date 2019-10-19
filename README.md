@@ -8,7 +8,7 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 ## Requirement
 
-- SML# compiler
+- SML# compiler = 3.4.0
 - Emacs >= 24.1
 - flycheck >= 0.22
 - sml-mode
@@ -17,10 +17,10 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 1. Install SML# compiler.
 1. Add flycheck-smlsharp.el file to the directory which is in Emacs load path.
-1. Add like adove line to your `init.el`
+1. Add a line like adove to your `init.el`.
 
 ```elisp
-(require "flycheck-smlsharp")
+(require 'flycheck-smlsharp)
 ```
 
 ## Usage
