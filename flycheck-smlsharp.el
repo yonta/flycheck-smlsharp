@@ -6,7 +6,7 @@
 ;; URL: https://github.com/yonta/flycheck-smlsharp
 ;; Keywords: convenience, tools, languages
 ;; Version: 0.1
-;; Package-Requires: ((emacs "24.1") (flycheck "0.22"))
+;; Package-Requires: ((emacs "24.1") (flycheck "0.22") (sml-mode "0.4"))
 
 ;; This file is distributed under the terms of Apache License (version 2.0).
 ;; See also LICENSE file.
