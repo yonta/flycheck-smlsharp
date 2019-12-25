@@ -31,20 +31,19 @@ You need SML# compiler \"v3.5.0\". This checker calls SML# compiler with
 
 This checker recognizes the following format strings of compiler.
 
-1. Error without position. For example, syntax error by not closed `let`.
-    - `none:~1.~1-~1.~1 Error: syntax error found at EOF`
-2. Error with position. For example, most sytax and type error.
-    - `myfile.sml:1.0-1.7 Error: syntax error: inserting COLON`
-    - `myfile.sml:6.8-6.9 Error:
-          (type inference 017) operator is not a function:
-          'FC::{int, int8, int16, int64,...}`
+1. Error without positions. For example, syntax error by not closed `let'.
+    - `(none)-(none) Error: syntax error found at EOF'
+2. Error with positions. For example, most sytax and type error.
+    - `file.sml:1.13-1.13 Error: syntax error: replacing  COLON with  EQ'
+    - `file.sml:1.0-1.3 Error:
+         (type inference 017) operator is not a function:
+         'FB::{int, int8, int16, int64, ...}'
 3. Warning. For example, redundant or nonexhaustive match.
-    - `myfile.sml:10.0-10.10 Warning: match nonexhaustive
-             A  => ...`
-    - `myfile.sml:10.0-10.10 Warning:
-             match nonexhaustive
-                 A  => ...`
-    with long file name.
+    - `file.sml:2.8-2.23 Warning: match nonexhaustive
+             A  => ...
+    - `longlonglonglonglongfile.sml:2.8-2.23 Warning:
+         match nonexhaustive
+             A  => ...'
 
 Now, this checker only checks when the file is saved. That's because real-time
 flycheck creates a copy of source code with another file name. It makes
@@ -60,24 +59,27 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
-   ; Other errors have error position,
-   ;   like "file.sml:1.0-1.7 Error: syntax error: inserting COLON",
-   ;   or like "file.sml:6.8-6.9 Error:
-   ;              (type inference 017) operator is not a function:
-   ;              'FC::{int, int8, int16, int64,...}"
-   ;   with long file name.
+   ;; Errors with file name and positions.
+   ;; For example,
+   ;; "file.sml:1.13-1.13 Error: syntax error: replacing  COLON with  EQ"
+   ;; or
+   ;; "file.sml:1.0-1.3 Error:
+   ;;    (type inference 017) operator is not a function:
+   ;;    'FB::{int, int8, int16, int64, ...}"
    (error line-start (file-name) ":"
           line "." column "-" (+ digit) "." (+ digit) (+ blank)
           "Error:" (+ (in " \t\n"))
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
-   ; like "file.sml:10.0-10.10 Warning: match nonexhaustive
-   ;             A  => ..."
-   ; or like "file.sml:10.0-10.10 Warning:
-   ;            match nonexhaustive
-   ;                A  => ..."
-   ; with long file name.
+   ;; Warnings with file name and positions.
+   ;; For example,
+   ;; "file.sml:2.8-2.23 Warning: match nonexhaustive
+   ;;        A  => ..."
+   ;; or
+   ;; "longlonglonglonglongfile.sml:2.8-2.23 Warning:
+   ;;    match nonexhaustive
+   ;;        A  => ..."
    (warning line-start (file-name) ":" line "." column "-"
             (+ digit) "." (+ digit) (+ blank)
             "Warning:" (+ (in " \t\n"))
@@ -87,7 +89,7 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :error-filter
   (lambda (errors)
     (flycheck-increment-error-columns             ; for 0-based columns
-     (flycheck-fill-empty-line-numbers errors)))  ; for "none:~1.~1"
+     (flycheck-fill-empty-line-numbers errors)))  ; for no positions
   :modes sml-mode
   :predicate flycheck-buffer-saved-p) ; for source-original to compile with .smi
 
