@@ -15,6 +15,9 @@
 
 ;; This Flycheck extension provides SML# syntax checker which uses SML#
 ;; compiler.
+;;
+;; How to use, see README.md in GitHub repository.
+;; https://github.com/yonta/flycheck-smlsharp
 
 ;;; Code:
 
