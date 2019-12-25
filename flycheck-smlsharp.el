@@ -26,8 +26,8 @@
 (flycheck-define-checker smlsharp
   "A SML# syntax checker using SML# compiler in sml-mode.
 
-You need SML# compiler \"v3.4.0\". This checker calls SML# compiler with
-`-ftypecheck-only` option to check source code.
+You need SML# compiler \"v3.5.0\". This checker calls SML# compiler with
+`-ftypecheck-only' option to check source code.
 
 This checker recognizes the following format strings of compiler.
 
@@ -53,9 +53,10 @@ difference name between sml file and smi, and makes checker complex.
 About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :command ("smlsharp" "-ftypecheck-only" source-original)
   :error-patterns
-   ; EOL errors do not have error position,
-   ; like, "none:~1.~1-~1.~1 Error: syntax error found at EOF"
-  ((error line-start "none:~1.~1-~1.~1 Error:" (+ (in " \t\n"))
+  ;; Errors without positions.
+  ;; For example,
+  ;; "(none)-(none) Error: syntax error found at EOF".
+  ((error line-start "(none)-(none) Error:" (+ (in " \t\n"))
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
