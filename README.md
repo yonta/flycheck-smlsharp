@@ -20,7 +20,19 @@ Emacs Flychcker for Standard ML with SML# compiler
 1. Add a line like adove to your `init.el`.
 
 ```elisp
-(require 'flycheck-smlsharp)
+(eval-after-load 'sml-mode
+  '(progn
+    (require 'flycheck-smlsharp)))
+```
+
+- with leaf.el,
+
+``` elisp
+(leaf flycheck-smlsharp
+  :el-get (flycheck-smlsharp
+           :url "https://github.com/yonta/flycheck-smlsharp.git")
+  :after sml-mode
+  :require t)
 ```
 
 ## Usage
