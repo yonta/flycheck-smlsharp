@@ -44,6 +44,8 @@ This checker recognizes the following format strings of compiler.
     - `longlonglonglonglongfile.sml:2.8-2.23 Warning:
          match nonexhaustive
              A  => ...'
+4. Bug with `Bug.Bug' exception. For example.
+    - `uncaught exception: Bug.Bug: InferType: FIXME: user error: doubled tycon at src/compiler/compilePhases/typeinference/main/InferTypes2.sml:51.14'
 
 Now, this checker only checks when the file is saved. That's because real-time
 flycheck creates a copy of source code with another file name. It makes
@@ -85,7 +87,11 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
             "Warning:" (+ (in " \t\n"))
             (message
              (and (+ not-newline) "\n"
-                  (* line-start (+ blank) (+ not-newline) "\n")))))
+                  (* line-start (+ blank) (+ not-newline) "\n"))))
+   ;; Bug.
+   ;; For example,
+   ;; "uncaught exception: Bug.Bug: InferType: FIXME: user error: doubled tycon at src/compiler/compilePhases/typeinference/main/InferTypes2.sml:51.14"
+   (error (message (and "uncaught exception: Bug.Bug: " (+ not-newline) "\n"))))
   :error-filter
   (lambda (errors)
     (flycheck-increment-error-columns             ; for 0-based columns
