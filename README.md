@@ -8,7 +8,7 @@ Emacs Flychcker for Standard ML with SML# compiler
 
 ## Requirement
 
-- SML# compiler = 3.5.0
+- SML# compiler >= 3.5.0
 - Emacs >= 24.1
 - flycheck >= 0.22
 - sml-mode >= 0.4

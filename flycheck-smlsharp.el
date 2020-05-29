@@ -26,7 +26,7 @@
 (flycheck-define-checker smlsharp
   "A SML# syntax checker using SML# compiler in sml-mode.
 
-You need SML# compiler \"v3.5.0\". This checker calls SML# compiler with
+You need SML# compiler >= \"v3.5.0\". This checker calls SML# compiler with
 `-ftypecheck-only' option to check source code.
 
 This checker recognizes the following format strings of compiler.
