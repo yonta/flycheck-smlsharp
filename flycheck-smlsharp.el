@@ -26,12 +26,15 @@
 (flycheck-define-checker smlsharp
   "A SML# syntax checker using SML# compiler in sml-mode.
 
-You need SML# compiler >= \"v3.5.0\". This checker calls SML# compiler with
+You need SML# compiler >= \"v3.4.0\". This checker calls SML# compiler with
 `-ftypecheck-only' option to check source code.
 
 This checker recognizes the following format strings of compiler.
 
-1. Error without positions. For example, syntax error by not closed `let'.
+1. Error without positions or with minus positions. In SML# v3.4.0, it has
+   minus positions, and SML# v3.5.0 or later does not have.
+   For example, syntax error by not closed `let'.
+    - `none:~1.~1-~1.~1 Error: syntax error found at EOF'
     - `(none)-(none) Error: syntax error found at EOF'
 2. Error with positions. For example, most sytax and type error.
     - `file.sml:1.13-1.13 Error: syntax error: replacing  COLON with  EQ'
@@ -54,10 +57,17 @@ difference name between sml file and smi, and makes checker complex.
 About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :command ("smlsharp" "-ftypecheck-only" source-original)
   :error-patterns
-  ;; Errors without positions.
+  ;; Errors with minus positions <= v3.4.0.
   ;; For example,
-  ;; "(none)-(none) Error: syntax error found at EOF".
-  ((error line-start "(none)-(none) Error:" (+ (in " \t\n"))
+  ;; "none:~1.~1-~1.~1 Error: syntax error found at EOF"
+  ((error line-start "none:~1.~1-~1.~1 Error:" (+ (in " \t\n"))
+          (message
+           (and (+ not-newline) "\n"
+                (* line-start (+ blank) (+ not-newline) "\n"))))
+   ;; Errors without positions >= v3.5.0.
+   ;; For example,
+   ;; "(none)-(none) Error: syntax error found at EOF".
+   (error line-start "(none)-(none) Error:" (+ (in " \t\n"))
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
