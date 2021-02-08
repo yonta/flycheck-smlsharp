@@ -5,7 +5,7 @@
 ;; Author: SAITOU Keita <keita44.f4@gmail.com>
 ;; URL: https://github.com/yonta/flycheck-smlsharp
 ;; Keywords: convenience, tools, languages
-;; Version: 0.1
+;; Version: 0.7
 ;; Package-Requires: ((emacs "24.1") (flycheck "0.22") (sml-mode "0.4"))
 
 ;; This file is distributed under the terms of Apache License (version 2.0).
@@ -57,17 +57,15 @@ difference name between sml file and smi, and makes checker complex.
 About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :command ("smlsharp" "-ftypecheck-only" source-original)
   :error-patterns
-  ;; Errors with minus positions <= v3.4.0.
+  ;; Errors with minus positions in version <= v3.4.0.
   ;; For example,
   ;; "none:~1.~1-~1.~1 Error: syntax error found at EOF"
-  ((error line-start "none:~1.~1-~1.~1 Error:" (+ (in " \t\n"))
-          (message
-           (and (+ not-newline) "\n"
-                (* line-start (+ blank) (+ not-newline) "\n"))))
-   ;; Errors without positions >= v3.5.0.
-   ;; For example,
-   ;; "(none)-(none) Error: syntax error found at EOF".
-   (error line-start "(none)-(none) Error:" (+ (in " \t\n"))
+  ;;
+  ;; In version >= v3.5.0.
+  ;; For example,
+  ;; "(none)-(none) Error: syntax error found at EOF".
+  ((error line-start (or "none:~1.~1-~1.~1" "(none)-(none)") (+ blank)
+          "Error:" (+ (or blank "\n"))  ; first line and indented lines
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
@@ -78,9 +76,14 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
    ;; "file.sml:1.0-1.3 Error:
    ;;    (type inference 017) operator is not a function:
    ;;    'FB::{int, int8, int16, int64, ...}"
+   ;;
+   ;; In version = v3.7.0, there is character base positions.
+   ;; For example,
+   ;; "file.sml:1.13(13)-1.13(13) Error: ..."
    (error line-start (file-name) ":"
-          line "." column "-" (+ digit) "." (+ digit) (+ blank)
-          "Error:" (+ (in " \t\n"))
+          line "." column (? "(" (+ digit) ")") "-"
+          end-line "." end-column (? "(" (+ digit) ")") (+ blank)
+          "Error:" (+ (or blank "\n"))  ; first line and indented lines
           (message
            (and (+ not-newline) "\n"
                 (* line-start (+ blank) (+ not-newline) "\n"))))
@@ -92,16 +95,21 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
    ;; "longlonglonglonglongfile.sml:2.8-2.23 Warning:
    ;;    match nonexhaustive
    ;;        A  => ..."
-   (warning line-start (file-name) ":" line "." column "-"
-            (+ digit) "." (+ digit) (+ blank)
-            "Warning:" (+ (in " \t\n"))
+   ;;
+   ;; In v3.7.0, there is character base positions.
+   ;; "file.sml:2.8(27)-2.23(42) Warning: ..."
+   (warning line-start (file-name) ":"
+            line "." column (? "(" (+ digit) ")") "-"
+            end-line "." end-column (? "(" (+ digit) ")") (+ blank)
+            "Warning:" (+ (or blank "\n"))  ; first line and indented lines
             (message
              (and (+ not-newline) "\n"
                   (* line-start (+ blank) (+ not-newline) "\n"))))
-   ;; Bug.
+   ;; Bug, it does not contains new-line.
    ;; For example,
    ;; "uncaught exception: Bug.Bug: InferType: FIXME: user error: doubled tycon at src/compiler/compilePhases/typeinference/main/InferTypes2.sml:51.14"
-   (error (message (and "uncaught exception: Bug.Bug: " (+ not-newline) "\n"))))
+   (error
+    (message (and "uncaught exception: Bug.Bug:" (+ not-newline)))))
   :error-filter
   (lambda (errors)
     (flycheck-increment-error-columns             ; for 0-based columns
