@@ -23,7 +23,7 @@
 
 (require 'flycheck)
 
-(flycheck-define-checker smlsharp
+(flycheck-define-checker sml-smlsharp
   "A SML# syntax checker using SML# compiler in sml-mode.
 
 You need SML# compiler >= \"v3.4.0\". This checker calls SML# compiler with
@@ -117,7 +117,7 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :modes sml-mode
   :predicate flycheck-buffer-saved-p) ; for source-original to compile with .smi
 
-(add-to-list 'flycheck-checkers 'smlsharp)
+(add-to-list 'flycheck-checkers 'sml-smlsharp)
 
 (provide 'flycheck-smlsharp)
 
