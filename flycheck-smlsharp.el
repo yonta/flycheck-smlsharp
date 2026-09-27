@@ -122,7 +122,13 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
   :modes sml-mode
   :predicate flycheck-buffer-saved-p) ; for source-original to compile with .smi
 
-(add-to-list 'flycheck-checkers 'sml-smlsharp)
+;;;###autoload
+(defun flycheck-smlsharp-setup ()
+  "Setup Flycheck SML#.
+
+Add `sml-smlsharp' to `flycheck-checkers'."
+  (interactive)
+  (add-to-list 'flycheck-checkers 'sml-smlsharp))
 
 (provide 'flycheck-smlsharp)
 
