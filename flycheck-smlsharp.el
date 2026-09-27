@@ -5,7 +5,7 @@
 ;; Author: SAITOU Keita <keita44.f4@gmail.com>
 ;; URL: https://github.com/yonta/flycheck-smlsharp
 ;; Keywords: convenience, tools, languages
-;; Version: 0.7
+;; Version: 0.8
 ;; Package-Requires: ((emacs "28.1") (flycheck "32"))
 
 ;; This file is distributed under the terms of Apache License (version 2.0).
