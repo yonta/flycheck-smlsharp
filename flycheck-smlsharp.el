@@ -36,7 +36,7 @@ This checker recognizes the following format strings of compiler.
    For example, syntax error by not closed `let'.
     - `none:~1.~1-~1.~1 Error: syntax error found at EOF'
     - `(none)-(none) Error: syntax error found at EOF'
-2. Error with positions. For example, most sytax and type error.
+2. Error with positions. For example, most syntax and type error.
     - `file.sml:1.13-1.13 Error: syntax error: replacing  COLON with  EQ'
     - `file.sml:1.0-1.3 Error:
          (type inference 017) operator is not a function:
