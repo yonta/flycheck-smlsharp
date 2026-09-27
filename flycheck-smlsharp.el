@@ -112,8 +112,13 @@ About SML#, see URL 'http://www.pllab.riec.tohoku.ac.jp/smlsharp/'."
     (message (and "uncaught exception: Bug.Bug:" (+ not-newline)))))
   :error-filter
   (lambda (errors)
-    (flycheck-increment-error-columns             ; for 0-based columns
-     (flycheck-fill-empty-line-numbers errors)))  ; for no positions
+    ;; SML# end column includes the last character, flycheck's excludes it.
+    (dolist (err errors)
+      (when-let* ((col (flycheck-error-end-column err)))
+        (setf (flycheck-error-end-column err) (1+ col))))
+    (flycheck-sanitize-errors
+     (flycheck-increment-error-columns             ; for 0-based columns
+      (flycheck-fill-empty-line-numbers errors)))) ; for no positions
   :modes sml-mode
   :predicate flycheck-buffer-saved-p) ; for source-original to compile with .smi
 
