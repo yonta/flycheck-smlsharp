@@ -9,24 +9,36 @@ Emacs Flychcker for Standard ML with SML# compiler
 ## Requirement
 
 - SML# compiler >= 3.4.0
-- Emacs >= 24.1
-- flycheck >= 0.22
-- sml-mode >= 0.4
+- Emacs >= 28.1
+- flycheck >= 32
+- sml-mode
 
 ## Install
 
 1. Install SML# compiler.
-1. Add flycheck-smlsharp.el file to the directory which is in Emacs load path.
-1. Add a line like adove to your `init.el`.
+1. Install this package, and call `flycheck-smlsharp-setup` after flycheck is
+   loaded.
+
+- with package-vc (Emacs >= 29),
 
 ```elisp
+(package-vc-install "https://github.com/yonta/flycheck-smlsharp.git")
 (with-eval-after-load 'flycheck
   (flycheck-smlsharp-setup))
 ```
 
+- with use-package (Emacs >= 30),
+
+```elisp
+(use-package flycheck-smlsharp
+  :vc (:url "https://github.com/yonta/flycheck-smlsharp.git")
+  :after flycheck
+  :config (flycheck-smlsharp-setup))
+```
+
 - with leaf.el,
 
-``` elisp
+```elisp
 (leaf flycheck-smlsharp
   :vc (:url "https://github.com/yonta/flycheck-smlsharp.git")
   :after flycheck
